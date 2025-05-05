@@ -1,5 +1,5 @@
 import { Pinecone } from "@pinecone-database/pinecone";
-import type { LoaderFunctionArgs } from "react-router";
+import type { ActionFunctionArgs } from "react-router";
 
 const chatbot = "medbot-chat";
 const _query =
@@ -25,7 +25,7 @@ const assistant = pc.Assistant(chatbot);
 
 type History = Array<{ role: "user" | "assistant"; content: string }>;
 
-const resp = async (query: string = _query, history: History = []) =>
+export const resp = async (query: string = _query, history: History = []) =>
 	await assistant.chat({
 		messages: [
 			{
@@ -74,7 +74,7 @@ const respStream = async (query: string = _query, history: History = []) =>
 // 	);
 // };
 
-export const loader = async ({ request: req }: LoaderFunctionArgs) => {
+export async function action({ request: req }: ActionFunctionArgs) {
 	try {
 		const { message, sessionId, history = [] } = await req.json();
 
@@ -104,4 +104,4 @@ export const loader = async ({ request: req }: LoaderFunctionArgs) => {
 			sessionId: 500,
 		});
 	}
-};
+}

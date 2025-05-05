@@ -3,7 +3,7 @@
 import "ios-vibrator-pro-max";
 // import nmd from 'nano-markdown'
 
-import type React from "react";
+// import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import {
 	Search,
@@ -53,7 +53,15 @@ interface StreamingWord {
 const WORD_DELAY = 40; // ms per word
 const CHUNK_SIZE = 2; // Number of words to add at once
 
-export default function ChatInterface() {
+export function ChatInterface() {
+	const vibrate = (n: number) => {
+		try {
+			vibrate(50);
+		} catch (e) {
+			console.error("Vibration not supported");
+		}
+	};
+
 	const [inputValue, setInputValue] = useState("");
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 	const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -322,7 +330,7 @@ export default function ChatInterface() {
 		// Add a delay before the second vibration
 		setTimeout(() => {
 			// Add vibration when streaming begins
-			navigator.vibrate(50);
+			vibrate(50);
 		}, 200); // 200ms delay to make it distinct from the first vibration
 
 		try {
@@ -365,7 +373,7 @@ export default function ChatInterface() {
 			setCompletedMessages((prev) => new Set(prev).add(messageId));
 
 			// Add vibration when streaming ends
-			navigator.vibrate(50);
+			vibrate(50);
 
 			// Reset streaming state
 			setStreamingWords([]);
@@ -420,7 +428,7 @@ export default function ChatInterface() {
 		e.preventDefault();
 		if (inputValue.trim() && !isStreaming) {
 			// Add vibration when message is submitted
-			navigator.vibrate(50);
+			vibrate(50);
 
 			const userMessage = inputValue.trim();
 
@@ -596,7 +604,9 @@ export default function ChatInterface() {
 						<span className="sr-only">Menu</span>
 					</Button>
 
-					<h1 className="text-base font-medium text-gray-800">My AMU Chat</h1>
+					<h1 className="text-base font-medium text-gray-800">
+						HealthMate CHat
+					</h1>
 
 					<Button
 						type="button"
