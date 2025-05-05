@@ -1,6 +1,6 @@
 // import type { Route } from "./+types/home";
-import {ChatInterface} from "~/chat/ChatInterface";
-
+import { ChatInterface } from "~/chat/ChatInterface";
+import { ClientOnly } from "remix-utils/client-only";
 export function meta() {
 	return [
 		{ title: "Health Mate Chat bot" },
@@ -9,6 +9,9 @@ export function meta() {
 }
 
 export default function Home() {
-	if (typeof document==="undefined") return null;
-	return <ChatInterface />;
+	return (
+		<ClientOnly fallback={<div>Loading...</div>}>
+			{()=><ChatInterface />}
+		</ClientOnly>
+	);
 }
